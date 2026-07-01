@@ -3,7 +3,7 @@ import pytest
 
 def pytest_addoption(parser):
     parser.addoption("--url", default="https://ya.ru", help="URL для проверки")
-    parser.addoption("--status_code", default=404, help="Ожидаемый статус-код")
+    parser.addoption("--status_code", default=200, help="Ожидаемый статус-код")
 
 
 @pytest.fixture(scope="session")
