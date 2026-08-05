@@ -1,10 +1,12 @@
-from selenium.webdriver.support import expected_conditions as EC
 import pytest
+from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options as ChromeOptions
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
+
+from pages.currency_selector import CurrencySelector
+
+load_dotenv()
 
 
 def pytest_addoption(parser):
@@ -27,6 +29,7 @@ def browser(request):
     else:
         raise ValueError(f"Invalid browser name: {browser_name}")
 
+    browser.maximize_window()
     yield browser
     browser.quit()
 
@@ -38,22 +41,8 @@ def base_url(request):
 
 @pytest.fixture(scope="function")
 def currency(browser, base_url, request):
-    path = request.param
-    price = ".product-price-and-shipping .price"
-    browser.get(base_url + path)
-    wait = WebDriverWait(browser, 10)
-    euro = browser.find_element(By.CSS_SELECTOR, price).text
-    browser.find_element(
-        By.CSS_SELECTOR, "#_desktop_currency_selector > div > button"
-    ).click()
-    modal = wait.until(
-        EC.element_to_be_clickable(
-            (
-                By.CSS_SELECTOR,
-                "#_desktop_currency_selector > div > ul > li:nth-child(2) > a",
-            )
-        )
-    )
-    modal.click()
-    usd = browser.find_element(By.CSS_SELECTOR, price).text
+    page = CurrencySelector(browser, base_url, timeout=10).open(request.param)
+    euro = page.price()
+    page.switch_to_usd()
+    usd = page.price()
     return {"euro": euro, "usd": usd}

@@ -1,35 +1,25 @@
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.by import By
-import pytest
+from pages.registration_page import Registration
+from faker import Faker
 
 
 def test_registration(browser, base_url):
-    browser.get(base_url + "registration")
-    wait = WebDriverWait(browser, 5)
-    have_title = browser.find_element(By.CSS_SELECTOR, "#main > header > h1")
-    assert have_title.is_displayed()
-    input_password = browser.find_element(By.CSS_SELECTOR, "input[name='password']")
-    input_password.send_keys("123")
-    browser.find_element(
-        By.CSS_SELECTOR,
-        "#customer-form > div > div.field-password-policy > div > div.col-md-6.js-input-column > div.input-group.js-parent-focus > span > button",
-    ).click()
-    assert input_password.get_attribute("value") == "123"
-    good_password = browser.find_element(
-        By.CSS_SELECTOR,
-        "#customer-form > div > div.field-password-policy > div > div.col-md-6.js-input-column > div:nth-child(2) > div > div.password-requirements > p.password-requirements-length",
-    )
+    page = Registration(browser, base_url)
+    page.open()
+    assert page.title().is_displayed()
+    page.input_password("123")
+    assert page.password_value() == "123"
+    assert "Enter a password between 8 and 72 characters" in page.password_length_hint()
+    assert "The minimum score must be: Strong" in page.password_score_hint()
+    page.click_save()
     assert (
-        "Enter a password between 8 and 72 characters"
-        in good_password.get_attribute("textContent")
+        page.firstname_field().get_attribute("validationMessage")
+        == "Заполните это поле."
     )
-    min_password = browser.find_element(
-        By.CSS_SELECTOR,
-        "#customer-form > div > div.field-password-policy > div > div.col-md-6.js-input-column > div:nth-child(2) > div > div.password-requirements > p.password-requirements-score > span",
-    )
-    assert "The minimum score must be: Strong" in min_password.get_attribute(
-        "textContent"
-    )
-    browser.find_element(By.CSS_SELECTOR, "#customer-form > footer > button").click()
-    first_name = browser.find_element(By.CSS_SELECTOR, "#field-firstname")
-    assert first_name.get_attribute("validationMessage") == "Заполните это поле."
+    page.send_first_name(Faker().first_name())
+    page.send_last_name(Faker().last_name())
+    page.input_password(Faker().password())
+    page.send_email(Faker().email())
+    page.click_check_agree()
+    page.click_check_privacy()
+    page.click_save()
+    assert page.logout_button().is_displayed()
