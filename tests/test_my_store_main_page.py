@@ -1,8 +1,8 @@
 from pages.main_page import MainPage
 
 
-def test_main_page(browser, base_url):
-    page = MainPage(browser, base_url).open()
+def test_main_page(browser):
+    page = MainPage(browser).open()
     assert page.logo().is_displayed()
     assert page.title() == "PrestaShop"
     cards = page.cards()
@@ -13,4 +13,4 @@ def test_main_page(browser, base_url):
     page.close_modal()
     assert len(page.cards_on_sale()) > 1
     page.click_all_new_products()
-    assert "new-products" in page.current_url()
+    assert "2-home" in page.current_url()

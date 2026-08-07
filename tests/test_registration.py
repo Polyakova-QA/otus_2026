@@ -2,8 +2,8 @@ from pages.registration_page import Registration
 from faker import Faker
 
 
-def test_registration(browser, base_url):
-    page = Registration(browser, base_url)
+def test_registration(browser):
+    page = Registration(browser)
     page.open()
     assert page.title().is_displayed()
     page.input_password("123")

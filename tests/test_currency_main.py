@@ -5,5 +5,5 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 
 @pytest.mark.parametrize("currency", [""], indirect=True)
-def test_currency_main(browser, base_url, currency):
+def test_currency_main(browser, currency):
     assert currency["usd"] != currency["euro"]

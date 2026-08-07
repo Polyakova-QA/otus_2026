@@ -3,8 +3,8 @@ from pages.main_page import MainPage
 from pages.product_page import ProductPage
 
 
-def test_add_to_card(browser, base_url):
-    main_page: MainPage = MainPage(browser, base_url).open()
+def test_add_to_card(browser):
+    main_page: MainPage = MainPage(browser).open()
     product_page: ProductPage = main_page.open_random_product()
     assert (
         "Product successfully added to your shopping cart" in product_page.add_to_cart()

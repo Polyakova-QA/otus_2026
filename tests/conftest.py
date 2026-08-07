@@ -30,18 +30,14 @@ def browser(request):
         raise ValueError(f"Invalid browser name: {browser_name}")
 
     browser.maximize_window()
+    browser.base_url = request.config.getoption("--base_url")
     yield browser
     browser.quit()
 
 
-@pytest.fixture(scope="session")
-def base_url(request):
-    return request.config.getoption("--base_url")
-
-
 @pytest.fixture(scope="function")
-def currency(browser, base_url, request):
-    page = CurrencySelector(browser, base_url, timeout=10).open(request.param)
+def currency(browser, request):
+    page = CurrencySelector(browser, timeout=10).open(request.param)
     euro = page.price()
     page.switch_to_usd()
     usd = page.price()

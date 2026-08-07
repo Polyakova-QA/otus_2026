@@ -1,8 +1,8 @@
 from pages.administration_page import Administration
 
 
-def test_administration(browser, base_url):
-    page: Administration = Administration(browser, base_url).open()
+def test_administration(browser):
+    page: Administration = Administration(browser).open()
     assert "Email address" in page.email()
     assert "Password" in page.password()
 

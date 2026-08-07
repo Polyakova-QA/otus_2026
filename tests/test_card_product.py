@@ -1,8 +1,8 @@
 from pages.card_product_page import CardPage
 
 
-def test_card_product(browser, base_url):
-    page = CardPage(browser, base_url).open()
+def test_card_product(browser):
+    page = CardPage(browser).open()
     assert (
         "Studio Design' PolyFaune collection features classic products with colorful patterns"
         in page.have_description()

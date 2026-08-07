@@ -5,9 +5,6 @@ from pages.locators import ProductPageLocators
 class CardPage(BasePage):
     PATH = "women/2-9-brown-bear-printed-sweater.html#/1-size-s"
 
-    def open(self, path=PATH):
-        return super().open(path)
-
     def have_description(self):
         return self.wait_visible(ProductPageLocators.DESCRIPTION).text
 

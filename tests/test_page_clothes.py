@@ -1,8 +1,8 @@
 from pages.clothes_pages import CLOTHES
 
 
-def test_page_clothes(browser, base_url):
-    page = CLOTHES(browser, base_url).open()
+def test_page_clothes(browser):
+    page = CLOTHES(browser).open()
     assert (
         "You have successfully subscribed to this newsletter."
         in page.subscribe_newsletter()

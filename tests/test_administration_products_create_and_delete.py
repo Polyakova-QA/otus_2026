@@ -2,8 +2,8 @@ from pages.administration_page import Administration
 from pages.administration_products_page import AdministrationProductPage
 
 
-def test_administration_product_create_and_delete(browser, base_url):
-    page: Administration = Administration(browser, base_url).open()
+def test_administration_product_create_and_delete(browser):
+    page: Administration = Administration(browser).open()
     page.email_send("admin@example.com")
     page.password_send("Admin123!")
     page.submit()

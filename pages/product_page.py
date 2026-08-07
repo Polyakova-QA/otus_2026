@@ -14,4 +14,4 @@ class ProductPage(BasePage):
 
     def open_cart(self):
         self.click(HeaderLocators.CART_LINK)
-        return CartPage(self.browser, self.base_url)
+        return CartPage(self.browser)

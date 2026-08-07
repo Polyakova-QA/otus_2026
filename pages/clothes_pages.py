@@ -6,9 +6,6 @@ from pages.locators import ClothesCategoryLocators
 class CLOTHES(BasePage):
     PATH = "3-clothes"
 
-    def open(self, path=PATH):
-        return super().open(path)
-
     def subscribe_newsletter(self):
         email = Faker().email()
         self.find(ClothesCategoryLocators.NEWSLETTER_EMAIL).send_keys(email)

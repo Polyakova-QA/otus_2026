@@ -5,9 +5,6 @@ from pages.locators import RegistrationLocators
 class Registration(BasePage):
     PATH = "registration"
 
-    def open(self, path=PATH):
-        return super().open(path)
-
     def title(self):
         return self.find(RegistrationLocators.TITLE)
 

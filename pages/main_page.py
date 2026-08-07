@@ -36,4 +36,4 @@ class MainPage(BasePage):
     def open_random_product(self):
         products = self.find_all(MainPageLocators.PRODUCT_MINIATURES)
         random.choice(products).click()
-        return ProductPage(self.browser, self.base_url)
+        return ProductPage(self.browser)

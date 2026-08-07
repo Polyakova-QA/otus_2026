@@ -6,9 +6,6 @@ from pages.locators import AdministrationLocators
 class Administration(BasePage):
     PATH = "administration"
 
-    def open(self, path=PATH):
-        return super().open(path)
-
     def email(self):
         return self.find(AdministrationLocators.EMAIL_LABEL).text
 
@@ -54,4 +51,4 @@ class Administration(BasePage):
         self.click(AdministrationLocators.OPEN_DASHBOARD)
         self.click(AdministrationLocators.CATALOG)
         self.wait_visible(AdministrationLocators.PRODUCTS).click()
-        return AdministrationProductPage(self.browser, self.base_url)
+        return AdministrationProductPage(self.browser)

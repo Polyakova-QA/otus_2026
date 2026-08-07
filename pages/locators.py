@@ -117,7 +117,7 @@ class MainPageLocators:
         By.CSS_SELECTOR,
         "#content section:nth-child(5) article.product-miniature",
     )
-    ALL_NEW_PRODUCTS_LINK = (By.CSS_SELECTOR, "#content > section:nth-child(6) > a")
+    ALL_NEW_PRODUCTS_LINK = (By.PARTIAL_LINK_TEXT, "All products")
 
 
 # ─────────────────────────────── Карточка товара ───────────────────────────────

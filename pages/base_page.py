@@ -1,17 +1,20 @@
+from abc import ABC
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-
 from pages.locators import HeaderLocators
 
 
-class BasePage:
-    def __init__(self, browser, base_url, timeout=4):
+class BasePage(ABC):
+    PATH = ""
+
+    def __init__(self, browser, timeout=4):
         self.browser = browser
-        self.base_url = base_url
+        self.base_url = browser.base_url
         self.wait = WebDriverWait(browser, timeout)
 
-    def open(self, path=""):
-        self.browser.get(self.base_url + path)
+    def open(self, path=None):
+        target = self.PATH if path is None else path
+        self.browser.get(self.base_url + target)
         return self
 
     def find(self, locator):
