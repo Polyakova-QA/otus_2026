@@ -74,25 +74,33 @@ class AdministrationLocators:
     RESET_PASSWORD_BTN = (By.CSS_SELECTOR, "#reset-password-button")
     EMAIL_FORGOT = (By.CSS_SELECTOR, "#email_forgot")
     RESET_ERROR = (By.CSS_SELECTOR, "#error > p")
-    EMAIL_INPUT= (By.CSS_SELECTOR, "#email")
+    EMAIL_INPUT = (By.CSS_SELECTOR, "#email")
     PASSWORD_INPUT = (By.CSS_SELECTOR, "#passwd")
     DASHBOARD_HEADER = (By.CSS_SELECTOR, "#content > div.bootstrap > div > div > h1")
     CATALOG = (By.CSS_SELECTOR, "#subtab-AdminCatalog > a > span")
     PRODUCTS = (By.CSS_SELECTOR, "#subtab-AdminProducts > a")
     OPEN_DASHBOARD = (By.CSS_SELECTOR, "#tab-AdminDashboard > a > span")
 
+
 # ─────────────────────────────── administration_product ───────────────────────────────
 # test_administration_products_page.py
 class AdministrationPageLocatorsProducts:
     NEW_PRODUCT = (By.CSS_SELECTOR, "#page-header-desc-configuration-add")
-    STANDART_PRODUCT = (By.CSS_SELECTOR, "button.product-type-choice[data-value='standard']")
+    STANDART_PRODUCT = (
+        By.CSS_SELECTOR,
+        "button.product-type-choice[data-value='standard']",
+    )
     ADD_PRODUCT = (By.CSS_SELECTOR, "#create_product_create")
     PRODUCT_NAME = (By.CSS_SELECTOR, "#product_header_name_1")
     SAVE = (By.CSS_SELECTOR, "#product_footer_save")
     SUCCESS_MESSAGE = (By.CSS_SELECTOR, ".alert-success .alert-text p")
     DELETE_DROPDOWN = (By.CSS_SELECTOR, "#product_footer_actions_dropdown")
     DELETE_PRODUCT = (By.CSS_SELECTOR, "#product_footer_actions_delete")
-    CONFIRM_DELETE = (By.CSS_SELECTOR, "#delete-product-footer-modal .btn-confirm-submit")
+    CONFIRM_DELETE = (
+        By.CSS_SELECTOR,
+        "#delete-product-footer-modal .btn-confirm-submit",
+    )
+
 
 # ─────────────────────── Главная страница (base_url) ───────────────────────
 # test_my_store_main_page.py  +  test_add_to_card.py (выбор товара)

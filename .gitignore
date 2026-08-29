@@ -219,3 +219,10 @@ __marimo__/
 
 #password
 .env
+
+# Логи тестов
+logs/
+
+# Результаты Allure
+allure-results/
+allure-report/

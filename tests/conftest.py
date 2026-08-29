@@ -1,3 +1,4 @@
+import allure
 import pytest
 from dotenv import load_dotenv
 from selenium import webdriver
@@ -12,6 +13,21 @@ load_dotenv()
 def pytest_addoption(parser):
     parser.addoption("--browser", default="chrome")
     parser.addoption("--base_url", default="http://localhost:8081/")
+
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    report = outcome.get_result()
+
+    if report.when == "call" and report.failed:
+        browser = item.funcargs.get("browser")
+        if browser is not None:
+            allure.attach(
+                browser.get_screenshot_as_png(),
+                name="screenshot_on_failure",
+                attachment_type=allure.attachment_type.PNG,
+            )
 
 
 @pytest.fixture(scope="function")
