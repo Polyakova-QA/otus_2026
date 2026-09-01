@@ -1,9 +1,12 @@
+import os
+
 import allure
 import pytest
 from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
 
 from pages.currency_selector import CurrencySelector
 
@@ -34,12 +37,19 @@ def pytest_runtest_makereport(item, call):
 def browser(request):
     browser_name: str = request.config.getoption("--browser")
 
+    headless = os.getenv("HEADLESS", "").lower() in ("1", "true", "yes")
+
     if browser_name == "chrome":
         options = ChromeOptions()
-        service = ChromeService()
-        browser = webdriver.Chrome(options=options, service=service)
+        if headless:
+            options.add_argument("--headless=new")
+            options.add_argument("--no-sandbox")
+        browser = webdriver.Chrome(options=options, service=ChromeService())
     elif browser_name == "firefox":
-        browser = webdriver.Firefox()
+        options = FirefoxOptions()
+        if headless:
+            options.add_argument("--headless")
+        browser = webdriver.Firefox(options=options)
     elif browser_name == "edge":
         browser = webdriver.Edge()
     else:
