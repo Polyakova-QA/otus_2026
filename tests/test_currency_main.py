@@ -1,9 +1,12 @@
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
+import allure
 import pytest
-from selenium.webdriver.support.ui import WebDriverWait
 
 
+@allure.feature("Валюта")
+@allure.title("Смена валюты на главной странице")
+@allure.severity(allure.severity_level.MINOR)
+@allure.tag("regression", "currency")
 @pytest.mark.parametrize("currency", [""], indirect=True)
 def test_currency_main(browser, currency):
-    assert currency["usd"] != currency["euro"]
+    with allure.step("Проверка: цена в USD отличается от цены в EUR"):
+        assert currency["usd"] != currency["euro"]

@@ -1,0 +1,6 @@
+selenium==4.46.0
+pytest==9.1.0
+allure-pytest==2.16.0
+python-dotenv==1.2.2
+Faker==40.35.0
+requests==2.34.2
