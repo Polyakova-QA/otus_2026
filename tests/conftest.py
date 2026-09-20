@@ -42,7 +42,14 @@ def browser(request):
         options.set_capability("browserName", browser_name)
         if browser_version:
             options.set_capability("browserVersion", browser_version)
-        options.set_capability("selenoid:options", {"enableVNC": True})
+        options.set_capability(
+            "selenoid:options",
+            {
+                "enableVNC": True,
+                # без локали браузер в контейнере отдаёт сообщения валидации по-английски
+                "env": ["LANG=ru_RU.UTF-8", "LANGUAGE=ru:en", "LC_ALL=ru_RU.UTF-8"],
+            },
+        )
         browser = webdriver.Remote(
             command_executor=f"http://{executor}:4444/wd/hub",
             options=options,
