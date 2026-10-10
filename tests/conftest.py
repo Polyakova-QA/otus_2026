@@ -14,17 +14,6 @@ from pages.currency_selector import CurrencySelector
 load_dotenv()
 
 
-def pytest_addoption(parser):
-    parser.addoption("--browser", default="chrome")
-    parser.addoption("--browser_version", default="128.0")
-    parser.addoption("--base_url", default="http://localhost:8081/")
-    parser.addoption(
-        "--executor",
-        default="local",
-        help="local — браузер на этой машине, иначе имя хоста с WebDriver (например, ggr)",
-    )
-
-
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):
     outcome = yield
@@ -43,7 +32,7 @@ def pytest_runtest_makereport(item, call):
 @pytest.fixture(scope="function")
 def browser(request):
     browser_name: str = request.config.getoption("--browser")
-    browser_version: str = request.config.getoption("--browser_version")
+    browser_version: str | None = request.config.getoption("--browser_version")
     executor: str = request.config.getoption("--executor")
 
     headless = os.getenv("HEADLESS", "").lower() in ("1", "true", "yes")
@@ -51,8 +40,16 @@ def browser(request):
     if executor != "local":
         options = ArgOptions()
         options.set_capability("browserName", browser_name)
-        options.set_capability("browserVersion", browser_version)
-        options.set_capability("selenoid:options", {"enableVNC": True})
+        if browser_version:
+            options.set_capability("browserVersion", browser_version)
+        options.set_capability(
+            "selenoid:options",
+            {
+                "enableVNC": True,
+                # без локали браузер в контейнере отдаёт сообщения валидации по-английски
+                "env": ["LANG=ru_RU.UTF-8", "LANGUAGE=ru:en", "LC_ALL=ru_RU.UTF-8"],
+            },
+        )
         browser = webdriver.Remote(
             command_executor=f"http://{executor}:4444/wd/hub",
             options=options,
