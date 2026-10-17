@@ -1,0 +1,27 @@
+services:
+  jenkins:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: otus-jenkins
+    container_name: jenkins
+    restart: unless-stopped
+    ports:
+      - "8088:8080"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    networks:
+      - selenoid1
+      - selenoid2
+
+networks:
+  selenoid1:
+    name: selenoid1
+    external: true
+  selenoid2:
+    name: selenoid2
+    external: true
+
+volumes:
+  jenkins_home:
+    driver: local
