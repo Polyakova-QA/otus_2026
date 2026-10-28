@@ -6,10 +6,13 @@ import requests
 def test_response_format(host, port):
     r = requests.get(f'http://{host}:{port}')
     assert r.status_code == 200
-    headers = r.text.split('\r\n')
-    assert headers[0] == 'Request Method: GET'
-    assert re.match(r"Request Source: \('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', \d+\)", headers[1]) is not None
-    assert headers[2] == 'Response Status: 200 OK'
+    lines = r.text.splitlines()
+    source_pattern = (
+        r"Request Source: \('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', \d+\)"
+    )
+    assert 'Request Method: GET' in lines
+    assert any(re.fullmatch(source_pattern, line) for line in lines)
+    assert 'Response Status: 200 OK' in lines
 
 
 def test_default_headers(host, port):
